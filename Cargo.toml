@@ -1,0 +1,10 @@
+[package]
+name = "pcalc"
+authors = ["C.K. <admin@0x434b.dev>"]
+repository = "https://github.com/0xricksanchez/pcalc"
+license = "MIT"
+description = "A very small wrapper around arithmetic operations to get a calculation result as decimal, hex and binary representation on the command-line."
+categories = ["command-line-utilities"]
+version = "0.0.1"
+edition = "2021"
+

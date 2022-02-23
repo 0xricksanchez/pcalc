@@ -135,21 +135,26 @@ fn main() {
     let env_args: Vec<_> = env::args().collect();
     if env_args.len() < 2 {
         usage();
-    }
-
-    let args: Vec<String> = if env_args.len() != 4 {
-        env_args[1]
-            .trim_matches('"')
-            .split(' ')
-            .filter(|x| !x.is_empty())
-            .map(|x| x.to_string())
-            .collect::<Vec<_>>()
-    } else {
-        env_args.as_slice()[1..].to_vec()
-    };
-    if args.len() != 3 {
-        usage();
-    } else {
+    } else if env_args.len() == 2 {
+        let mut args = env_args.as_slice()[1..].to_vec();
+        args.push("+".to_string());
+        args.push("0".to_string());
         Math::new(&args).math();
+    } else {
+        let args: Vec<String> = if env_args.len() != 4 {
+            env_args[1]
+                .trim_matches('"')
+                .split(' ')
+                .filter(|x| !x.is_empty())
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+        } else {
+            env_args.as_slice()[1..].to_vec()
+        };
+        if args.len() != 3 {
+            usage();
+        } else {
+            Math::new(&args).math();
+        }
     }
 }

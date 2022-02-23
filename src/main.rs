@@ -125,8 +125,18 @@ impl Math {
     }
 }
 
+
+fn usage() {
+    eprintln!("Expected exactly 3 arguments: LHS <operator> RHS!");
+    std::process::exit(-1);
+}
+
 fn main() {
     let env_args: Vec<_> = env::args().collect();
+    if env_args.len() < 2 {
+        usage();
+    }
+
     let args: Vec<String> = if env_args.len() != 4 {
         env_args[1]
             .trim_matches('"')
@@ -138,8 +148,7 @@ fn main() {
         env_args.as_slice()[1..].to_vec()
     };
     if args.len() != 3 {
-        eprintln!("Expected exactly 3 arguments: LHS <operator> RHS!");
-        std::process::exit(-1);
+        usage();
     } else {
         Math::new(&args).math();
     }

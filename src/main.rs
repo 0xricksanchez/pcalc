@@ -23,15 +23,18 @@ struct Math {
 
 impl Math {
     fn check_num(num_str: &str) -> (&str, bool) {
+        let mut is_hex = false;
         let tr = if num_str.starts_with(HEX_PREFIX) {
+            is_hex = true;
             num_str.trim_start_matches(HEX_PREFIX).trim()
         } else {
             num_str.trim()
         };
-        if tr.chars().all(|x| x.is_ascii_digit()) {
-            (tr, false)
+        if !is_hex && tr.chars().all(|x| x.is_ascii_digit()) {
+            (tr, is_hex)
         } else if tr.chars().all(|x| x.is_ascii_hexdigit()) {
-            (tr, true)
+            is_hex = true;
+            (tr, is_hex)
         } else {
             eprintln!("Failed to parse one of the inputs!");
             std::process::exit(-1);
@@ -204,5 +207,25 @@ mod tests {
             .collect::<Vec<_>>();
         let res = Math::new(&args).math();
         assert_eq!(22 * 1, res);
+    }
+
+    #[test]
+    fn mixed_math() {
+        let args = "a0 - 20"
+            .split(' ')
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>();
+        let res = Math::new(&args).math();
+        assert_eq!(0xa0 - 20, res);
+    }
+
+    #[test]
+    fn mixed_math2() {
+        let args = "0xa0 - 0x20"
+            .split(' ')
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>();
+        let res = Math::new(&args).math();
+        assert_eq!(0xa0 - 0x20, res);
     }
 }
